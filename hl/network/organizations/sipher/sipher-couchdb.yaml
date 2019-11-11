@@ -1,0 +1,266 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  anchorpr.sipher.cerberus.dev:
+  lead0pr.sipher.cerberus.dev:
+  lead1pr.anchor.cerberus.dev:
+  communicatepr.sipher.cerberus.dev:
+  execute0pr.sipher.cerberus.dev:
+  execute1pr.sipher.cerberus.dev:
+  fallback0pr.sipher.cerberus.dev:
+  fallback1pr.sipher.cerberus.dev:
+
+networks:
+  cerberusntw:
+
+services:
+
+  couchdb.anchorpr.sipher:
+    container_name: couchdb.anchorpr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=useranchorprsipher
+      - COUCHDB_PASSWORD=passwordanchorprsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13004:5984
+    networks:
+      - cerberusntw
+
+  anchorpr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: anchorpr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.anchorpr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=useranchorprsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordanchorprsipher
+    depends_on:
+      - couchdb.anchorpr.sipher
+
+
+  couchdb.lead0pr.sipher:
+    container_name: couchdb.lead0pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userlead0prsipher
+      - COUCHDB_PASSWORD=passwordlead0prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13008:5984
+    networks:
+      - cerberusntw
+
+  lead0pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: lead0pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.lead0pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userlead0prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordlead0prsipher
+    depends_on:
+      - couchdb.lead0pr.sipher
+
+  couchdb.lead1pr.sipher:
+    container_name: couchdb.lead1pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userlead1prsipher
+      - COUCHDB_PASSWORD=passwordlead1prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13012:5984
+    networks:
+      - cerberusntw
+
+  lead1pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: lead1pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.lead1pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userlead1prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordlead1prsipher
+    depends_on:
+      - couchdb.lead1pr.sipher
+
+  couchdb.communicatepr.sipher:
+    container_name: couchdb.communicatepr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=usercommunicateprsipher
+      - COUCHDB_PASSWORD=passwordcommunicateprsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13016:5984
+    networks:
+      - cerberusntw
+
+  communicatepr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: communicatepr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.communicatepr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=usercommunicateprsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordcommunicateprsipher
+    depends_on:
+      - couchdb.communicatepr.sipher
+
+
+  couchdb.execute0pr.sipher:
+    container_name: couchdb.execute0pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userexecute0prsipher
+      - COUCHDB_PASSWORD=passwordexecute0prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13020:5984
+    networks:
+      - cerberusntw
+
+  execute0pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: execute0pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.execute0pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userexecute0prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordexecute0prprsipher
+    depends_on:
+      - couchdb.execute0pr.sipher
+
+
+  couchdb.execute1pr.sipher:
+    container_name: couchdb.execute1pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userexecute1prsipher
+      - COUCHDB_PASSWORD=passwordexecute1prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13024:5984
+    networks:
+      - cerberusntw
+
+  execute1pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: execute1pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.execute1pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userexecute1prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordexecute1prsipher
+    depends_on:
+      - couchdb.execute1pr.sipher
+
+
+  couchdb.fallback0pr.sipher:
+    container_name: couchdb.fallback0pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userfallback0prsipher
+      - COUCHDB_PASSWORD=passwordfallback0prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13028:5984
+    networks:
+      - cerberusntw
+
+  fallback0pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: fallback0pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.fallback0pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userfallback0prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordfallback0prsipher
+    depends_on:
+      - couchdb.fallback0pr.sipher
+
+
+  couchdb.fallback1pr.sipher:
+    container_name: couchdb.fallback1pr.sipher
+    image: hyperledger/fabric-couchdb:$IMAGE_TAG
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=userfallback1prsipher
+      - COUCHDB_PASSWORD=passwordfallback1prsipher
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 13032:5984
+    networks:
+      - cerberusntw
+
+  fallback1pr.sipher.cerberus.dev:
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: fallback1pr.sipher.cerberus.dev
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.fallback1pr.sipher:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=userfallback1prsipher
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=passwordfallback1prsipher
+    depends_on:
+      - couchdb.fallback1pr.sipher

@@ -1,0 +1,216 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+services:
+
+  anchorpr.whitebox.cerberus.dev:
+    container_name: anchorpr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=anchorpr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=anchorpr.whitebox.cerberus.dev:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=anchorpr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=anchorpr.whitebox.cerberus.dev:7052
+      - ORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/anchorpr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/anchorpr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - anchorpr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13041:7051
+      - 13042:7052
+      - 13043:7053
+
+  lead0pr.whitebox.cerberus.dev:
+    container_name: lead0pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=lead0pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=lead0pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=lead0pr.whitebox.cerberus.dev:13046
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13046
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true # this is leader 0
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=lead1pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/lead0pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/lead0pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - lead0pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13045:7051
+      - 13046:7052
+      - 13047:7053
+
+  lead1pr.whitebox.cerberus.dev:
+    container_name: lead1pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=lead1pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=lead1pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=lead1pr.whitebox.cerberus.dev:13050
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13050
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # this is leader 1
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=lead0pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/lead1pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/lead1pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - lead1pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13049:7051
+      - 13050:7052
+      - 13051:7053
+
+  communicatepr.whitebox.cerberus.dev:
+    container_name: communicatepr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=communicatepr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=communicatepr.whitebox.cerberus.dev:13054
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13054
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # the peer will stand by
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=anchorpr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/communicatepr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/communicatepr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - communicatepr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13053:7051
+      - 13054:7052
+      - 13055:7053
+
+  execute0pr.whitebox.cerberus.dev:
+    container_name: execute0pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=execute0pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=execute0pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=execute0pr.whitebox.cerberus.dev:13058
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13058
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # the peer will stand by
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/execute0pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/execute0pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - execute0pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13057:7051
+      - 13058:7052
+      - 13059:7053
+
+  execute1pr.whitebox.cerberus.dev:
+    container_name: execute1pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=execute1pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=execute1pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=execute1pr.whitebox.cerberus.dev:13062
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13062
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # the peer will stand by
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/execute1pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/execute1pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - execute1pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13061:7051
+      - 13062:7052
+      - 13063:7053
+
+  fallback0pr.whitebox.cerberus.dev:
+    container_name: fallback0pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=fallback0pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=fallback0pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=fallback0pr.whitebox.cerberus.dev:13066
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13066
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # the peer will stand by
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/fallback0pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/fallback0pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - fallback0pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13065:7051
+      - 13066:7052
+      - 13067:7053
+
+  fallback1pr.whitebox.cerberus.dev:
+    container_name: fallback1pr.whitebox.cerberus.dev
+    extends:
+      file: ../../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=fallback1pr.whitebox.cerberus.dev
+      - CORE_PEER_ADDRESS=fallback1pr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=fallback1pr.whitebox.cerberus.dev:13070
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13070
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false # the peer will stand by
+
+      - CORE_PEER_GOSSIP_BOOTSTRAP=[lead0pr.whitebox.cerberus.dev:7051 lead1pr.whitebox.cerberus.dev:7051]
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=communicatepr.whitebox.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=WhiteBoxMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/fallback1pr.whitebox.cerberus.dev/msp:/etc/hyperledger/fabric/msp
+      - ../../crypto-config/peerOrganizations/whitebox.cerberus.dev/peers/fallback1pr.whitebox.cerberus.dev/tls:/etc/hyperledger/fabric/tls
+      - fallback1pr.whitebox.cerberus.dev:/var/hyperledger/production
+    ports:
+      - 13069:7051
+      - 13070:7052
+      - 13071:7053

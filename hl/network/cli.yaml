@@ -1,0 +1,205 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+
+  anchorpr.sipher.cerberus.dev:
+  lead0pr.sipher.cerberus.dev:
+  lead1pr.sipher.cerberus.dev:
+  communicatepr.sipher.cerberus.dev:
+  execute0pr.sipher.cerberus.dev:
+  execute1pr.sipher.cerberus.dev:
+  fallback0pr.sipher.cerberus.dev:
+  fallback1pr.sipher.cerberus.dev:
+
+  anchorpr.whitebox.cerberus.dev:
+  lead0pr.whitebox.cerberus.dev:
+  lead1pr.whitebox.cerberus.dev:
+  communicatepr.whitebox.cerberus.dev:
+  execute0pr.whitebox.cerberus.dev:
+  execute1pr.whitebox.cerberus.dev:
+  fallback0pr.whitebox.cerberus.dev:
+  fallback1pr.whitebox.cerberus.dev:
+
+networks:
+  cerberusntw:
+
+services:
+
+  anchorpr.sipher.cerberus.dev:
+    container_name: anchorpr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: anchorpr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  lead0pr.sipher.cerberus.dev:
+    container_name: lead0pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: lead0pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  lead1pr.sipher.cerberus.dev:
+    container_name: lead1pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: lead1pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  communicatepr.sipher.cerberus.dev:
+    container_name: communicatepr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/docker-compose-sipher-base.yaml
+      service: communicatepr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  execute0pr.sipher.cerberus.dev:
+    container_name: execute0pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: execute0pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  execute1pr.sipher.cerberus.dev:
+    container_name: execute1pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: execute1pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  fallback0pr.sipher.cerberus.dev:
+    container_name: fallback0pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: fallback0pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  fallback1pr.sipher.cerberus.dev:
+    container_name: fallback1pr.sipher.cerberus.dev
+    extends:
+      file: organizations/sipher/sipher-base.yaml
+      service: fallback1pr.sipher.cerberus.dev
+    networks:
+      - cerberusntw
+
+  anchorpr.whitebox.cerberus.dev:
+    container_name: anchorpr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: anchorpr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  lead0pr.whitebox.cerberus.dev:
+    container_name: lead0pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: lead0pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  lead1pr.whitebox.cerberus.dev:
+    container_name: lead1pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: lead1pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  communicatepr.whitebox.cerberus.dev:
+    container_name: communicatepr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: communicatepr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  execute0pr.whitebox.cerberus.dev:
+    container_name: execute0pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: execute0pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  execute1pr.whitebox.cerberus.dev:
+    container_name: execute1pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: execute1pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  fallback0pr.whitebox.cerberus.dev:
+    container_name: fallback0pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: fallback0pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  fallback1pr.whitebox.cerberus.dev:
+    container_name: fallback1pr.whitebox.cerberus.dev
+    extends:
+      file: organizations/whitebox/whitebox-base.yaml
+      service: fallback1pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw
+
+  cli.cerberus.dev:
+    container_name: cli.cerberus.dev
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli.cerberus.dev
+      - CORE_PEER_ADDRESS=anchorpr.sipher.cerberus.dev:7051
+      - CORE_PEER_LOCALMSPID=SipherMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/sipher.cerberus.dev/peers/anchorpr.sipher.cerberus.dev/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/sipher.cerberus.dev/peers/anchorpr.sipher.cerberus.dev/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/sipher.cerberus.dev/peers/anchorpr.sipher.cerberus.dev/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/sipher.cerberus.dev/users/Admin@sipher.cerberus.dev/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - anchorpr.sipher.cerberus.dev
+      - lead0pr.sipher.cerberus.dev
+      - lead1pr.sipher.cerberus.dev
+      - communicatepr.sipher.cerberus.dev
+      - execute0pr.sipher.cerberus.dev
+      - execute1pr.sipher.cerberus.dev
+      - fallback0pr.sipher.cerberus.dev
+      - fallback1pr.sipher.cerberus.dev
+      - anchorpr.whitebox.cerberus.dev
+      - lead0pr.whitebox.cerberus.dev
+      - lead1pr.whitebox.cerberus.dev
+      - communicatepr.whitebox.cerberus.dev
+      - execute0pr.whitebox.cerberus.dev
+      - execute1pr.whitebox.cerberus.dev
+      - fallback0pr.whitebox.cerberus.dev
+      - fallback1pr.whitebox.cerberus.dev
+    networks:
+      - cerberusntw

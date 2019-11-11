@@ -1,0 +1,410 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  osinstance0.cerberus.dev:
+  osinstance1.cerberus.dev:
+  osinstance2.cerberus.dev:
+  osinstance3.cerberus.dev:
+  osinstance4.cerberus.dev:
+
+networks:
+  cerberusntw:
+
+services:
+
+  osinstance0.cerberus.dev:
+    extends:
+      file: base/os-base.yaml
+      service: os-base
+    container_name: osinstance0.cerberus.dev
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_HOST=osinstance0.cerberus.dev
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance0.cerberus.dev/msp/:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance0.cerberus.dev/tls/:/var/hyperledger/orderer/tls
+      - osinstance0.cerberus.dev:/var/hyperledger/production/orderer
+    depends_on:
+      - kafka0.cerberus.dev
+      - kafka1.cerberus.dev
+      - kafka2.cerberus.dev
+      - kafka3.cerberus.dev
+      - kafka4.cerberus.dev
+      - kafka5.cerberus.dev
+      - kafka6.cerberus.dev
+    networks:
+      - cerberusntw
+    ports:
+      - 7050:7050
+
+  osinstance1.cerberus.dev:
+    extends:
+      file: base/os-base.yaml
+      service: os-base
+    container_name: osinstance1.cerberus.dev
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_HOST=osinstance1.cerberus.dev
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance1.cerberus.dev/msp/:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance1.cerberus.dev/tls/:/var/hyperledger/orderer/tls
+      - osinstance1.cerberus.dev:/var/hyperledger/production/orderer
+    depends_on:
+      - kafka0.cerberus.dev
+      - kafka1.cerberus.dev
+      - kafka2.cerberus.dev
+      - kafka3.cerberus.dev
+      - kafka4.cerberus.dev
+      - kafka5.cerberus.dev
+      - kafka6.cerberus.dev
+    networks:
+      - cerberusntw
+    ports:
+      - 8050:7050
+
+  osinstance2.cerberus.dev:
+    extends:
+      file: base/os-base.yaml
+      service: os-base
+    container_name: osinstance2.cerberus.dev
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_HOST=osinstance2.cerberus.dev
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance2.cerberus.dev/msp/:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance2.cerberus.dev/tls/:/var/hyperledger/orderer/tls
+      - osinstance2.cerberus.dev:/var/hyperledger/production/orderer
+    depends_on:
+      - kafka0.cerberus.dev
+      - kafka1.cerberus.dev
+      - kafka2.cerberus.dev
+      - kafka3.cerberus.dev
+      - kafka4.cerberus.dev
+      - kafka5.cerberus.dev
+      - kafka6.cerberus.dev
+    networks:
+      - cerberusntw
+    ports:
+      - 9050:7050
+
+  osinstance3.cerberus.dev:
+    extends:
+      file: base/os-base.yaml
+      service: os-base
+    container_name: osinstance3.cerberus.dev
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_HOST=osinstance3.cerberus.dev
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance3.cerberus.dev/msp/:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance3.cerberus.dev/tls/:/var/hyperledger/orderer/tls
+      - osinstance3.cerberus.dev:/var/hyperledger/production/orderer
+    depends_on:
+      - kafka0.cerberus.dev
+      - kafka1.cerberus.dev
+      - kafka2.cerberus.dev
+      - kafka3.cerberus.dev
+      - kafka4.cerberus.dev
+      - kafka5.cerberus.dev
+      - kafka6.cerberus.dev
+    networks:
+      - cerberusntw
+    ports:
+      - 11050:7050
+
+  osinstance4.cerberus.dev:
+    extends:
+      file: base/os-base.yaml
+      service: os-base
+    container_name: osinstance4.cerberus.dev
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - ORDERER_HOST=osinstance4.cerberus.dev
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+      - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance4.cerberus.dev/msp/:/var/hyperledger/orderer/msp
+      - ./crypto-config/ordererOrganizations/cerberus.dev/orderers/osinstance4.cerberus.dev/tls/:/var/hyperledger/orderer/tls
+      - osinstance4.cerberus.dev:/var/hyperledger/production/orderer
+    depends_on:
+      - kafka0.cerberus.dev
+      - kafka1.cerberus.dev
+      - kafka2.cerberus.dev
+      - kafka3.cerberus.dev
+      - kafka4.cerberus.dev
+      - kafka5.cerberus.dev
+      - kafka6.cerberus.dev
+    networks:
+      - cerberusntw
+    ports:
+      - 12050:7050
+
+  zk0:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk0
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk1:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk1
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk2:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk2
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk3:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk3
+    environment:
+      - ZOO_MY_ID=4
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk4:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk4
+    environment:
+      - ZOO_MY_ID=5
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk5:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk5
+    environment:
+      - ZOO_MY_ID=6
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  zk6:
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
+    container_name: zk6
+    environment:
+      - ZOO_MY_ID=7
+      - ZOO_SERVERS=server.1=zk0:2888:3888 server.2=zk1:2888:3888 server.3=zk2:2888:3888 server.4=zk3:2888:3888 server.5=zk4:2888:3888 server.6=zk5:2888:3888 server.7=zk6:2888:3888
+    networks:
+      - cerberusntw
+
+  kafka0.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka0.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=0
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka0.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9092:9092
+    networks:
+      - cerberusntw
+
+  kafka1.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka1.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9093:9092
+    networks:
+      - cerberusntw
+
+  kafka2.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka2.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9094:9092
+    networks:
+      - cerberusntw
+
+  kafka3.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka3.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=3
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka3.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9095:9092
+    networks:
+      - cerberusntw
+
+  kafka4.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka4.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=4
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka4.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9096:9092
+    networks:
+      - cerberusntw
+
+  kafka5.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka5.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=5
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka5.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9097:9092
+    networks:
+      - cerberusntw
+
+  kafka6.cerberus.dev:
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    container_name: kafka6.cerberus.dev
+
+    environment:
+      - KAFKA_BROKER_ID=6
+      - KAFKA_ZOOKEEPER_CONNECT=zk0:2181, zk1:2181, zk2:2181, zk3:2181, zk4:2181, zk5:2181, zk6:2181
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka6.cerberus.dev:9092
+    depends_on:
+      - zk0
+      - zk1
+      - zk2
+      - zk3
+      - zk4
+      - zk5
+      - zk6
+    ports:
+      - 9098:9092
+    networks:
+      - cerberusntw
+

@@ -1,0 +1,1 @@
+{"index":{"fields":["requesterPublicId","recipientPublicId","requestedData","status"]},"ddoc":"requestImageDoc", "name":"requestImage","type":"json"}
